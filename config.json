@@ -1,0 +1,8 @@
+{
+  "compilerVersion": "0.8.4",
+  "optimizerRuns": 0,
+  "mainnetGasPrice": 40,
+  "testnetGasPrice": 2,
+  "forkBlock": 13018600,
+  "reportGas": true
+}

@@ -43,6 +43,7 @@ contract MyobuDistributor is IMyobuDistributor, Ownable {
     }
 
     function distribute() public override {
+        if (address(this).balance == 0) return;
         require(distributeToCount != 0, "Must have distribution set");
         uint256 totalBalance = address(this).balance;
 

@@ -1,6 +1,6 @@
-# Smart contract template
+# Myobu Distributor
 
-A simple smart contract template using hardhat. With solhint, solcover, eslint, typescipt and prettier
+An ETH Distributor contract that receives ETH and distributes to several addresses based on the set %
 
 ## Requirements:
 
@@ -11,6 +11,7 @@ Optionally: Pnpm (https://pnpm.io/)
 ## Config:
 
 Secrets: Rename the secrets.json.dist to secrets.json
+
 <pre>
    **mainnetNodeURI** & **testnetNodeURI**: The ethereum node URIs for mainnet and testnet. You can use https://www.alchemy.com/ to get one {string},
 
@@ -20,6 +21,7 @@ Secrets: Rename the secrets.json.dist to secrets.json
 </pre>
 
 Config: Change config in config.json
+
 <pre>
    **compilerVersion & optimizerRuns**: The compiler version to use, and amount of optimizer runs to run. 0 turns optimizer off {number | string},
 
@@ -29,6 +31,7 @@ Config: Change config in config.json
 
    **reportGas**: Show amount of gas used after a test {boolean}
 </pre>
+
 ## First:
 
     pnpm install

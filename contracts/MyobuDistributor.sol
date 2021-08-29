@@ -1,0 +1,59 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+import "./Utils/Ownable.sol";
+import "./Interfaces/IMyobuDistributor.sol";
+import "./Utils/DistributorLib.sol";
+
+// import "hardhat/console.sol";
+
+contract MyobuDistributor is IMyobuDistributor, Ownable {
+    mapping(uint256 => DistributeTo) private distributeTo_;
+
+    function distributeTo(uint256 index)
+        external
+        view
+        override
+        returns (DistributeTo memory)
+    {
+        return distributeTo_[index];
+    }
+
+    uint256 public override distributeToCount;
+
+    function addArrayToMapping(DistributeTo[] memory array) private {
+        distributeToCount = array.length;
+        for (uint256 i; i < array.length; i++) {
+            distributeTo_[i] = array[i];
+        }
+    }
+
+    function setDistributeTo(DistributeTo[] calldata toDistributeTo)
+        external
+        onlyOwner
+    {
+        uint256 totalPercentage;
+        for (uint256 i; i < toDistributeTo.length; i++) {
+            totalPercentage += toDistributeTo[i].percentage;
+        }
+        require(totalPercentage == 100, "Total percentage must equal to 100");
+
+        addArrayToMapping(toDistributeTo);
+        emit DistributeToChanged(toDistributeTo);
+    }
+
+    function distribute() external override {
+        require(distributeToCount != 0, "Must have distribution set");
+        uint256 totalBalance = address(this).balance;
+
+        for (uint256 i; i < distributeToCount; i++) {
+            DistributorLib.transferOrWrapETH(
+                distributeTo_[i].addr,
+                (totalBalance * distributeTo_[i].percentage) / 100
+            );
+        }
+        emit Distributed(totalBalance, _msgSender());
+    }
+
+    // solhint-disable-next-line
+    receive() external payable {}
+}

@@ -54,7 +54,7 @@ describe("Distribute", () => {
     const oldBalance: BigNumber[] = []
     for await (const value of toSetDistributionTo)
       oldBalance.push(await ethers.provider.getBalance(value.addr))
-    await contract.distribute({ gasLimit: 50000e3 })
+    await contract.distribute()
     await toSetDistributionTo.forEach(async (value, i) =>
       expect(await ethers.provider.getBalance(value.addr)).to.be.equal(
         oldBalance[i].add(amountToDistributeWith.mul(value.percentage).div(100))

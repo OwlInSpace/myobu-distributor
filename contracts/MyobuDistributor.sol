@@ -31,7 +31,7 @@ contract MyobuDistributor is IMyobuDistributor, Ownable {
         external
         onlyOwner
     {
-        distribute();
+        if (distributeToCount != 0) distribute();
         uint256 totalPercentage;
         for (uint256 i; i < toDistributeTo.length; i++) {
             totalPercentage += toDistributeTo[i].percentage;
@@ -43,8 +43,8 @@ contract MyobuDistributor is IMyobuDistributor, Ownable {
     }
 
     function distribute() public override {
-        if (address(this).balance == 0) return;
         require(distributeToCount != 0, "Must have distribution set");
+        if (address(this).balance == 0) return;
         uint256 totalBalance = address(this).balance;
 
         for (uint256 i; i < distributeToCount; i++) {

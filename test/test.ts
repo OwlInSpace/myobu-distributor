@@ -81,4 +81,8 @@ describe("Distribute", () => {
       oldBalance.add(toAdd)
     )
   })
+
+  it("Does not do anything when there is nothing in the contract and does not revert", async () => {
+    await contract.distribute()
+  })
 })
